@@ -24,6 +24,8 @@ async def async_setup_entry(hass, entry, async_add_entities):
     async_add_entities(entities, update_before_add=True)
 
 class ParkingDataCoordinator(DataUpdateCoordinator):
+    """Coordinator to fetch and store parking data."""
+
     def __init__(self, hass, garages):
         super().__init__(
             hass,
@@ -32,27 +34,37 @@ class ParkingDataCoordinator(DataUpdateCoordinator):
             update_interval=timedelta(minutes=1),
         )
         self.garages = garages
-        self.data = {}
 
     async def _async_update_data(self):
         params = {"limit": 100}
-        resp = await self.hass.async_add_executor_job(requests.get, API_URL, params)
+        resp = await self.hass.async_add_executor_job(
+            requests.get, API_URL, params
+        )
         resp.raise_for_status()
-        records = resp.json()["records"]
+        data = resp.json()
+        records = data.get("records") or data.get("results") or []
         result = {}
         for rec in records:
-            f = rec["record"]["fields"]
-            name = f["naam"]
+            # Handle both v1 and v2 response shapes
+            if "record" in rec and isinstance(rec["record"], dict):
+                f = rec["record"].get("fields", {})
+            elif "fields" in rec:
+                f = rec["fields"]
+            else:
+                f = rec
+            name = f.get("naam")
             if name in self.garages:
                 result[name] = {
-                    "available": f["vrije_plaatsen"],
-                    "capacity": f["totaal_aantal_plaatsen"],
-                    "address": f["adres"],
+                    "available": f.get("vrije_plaatsen"),
+                    "capacity": f.get("totaal_aantal_plaatsen"),
+                    "address": f.get("adres"),
                     "operator": f.get("beheerder", "Unknown")
                 }
         return result
 
 class ParkingSensor(CoordinatorEntity):
+    """Sensor representing a single garage's available spots."""
+
     def __init__(self, coordinator, garage_id):
         super().__init__(coordinator)
         self.garage_id = garage_id
