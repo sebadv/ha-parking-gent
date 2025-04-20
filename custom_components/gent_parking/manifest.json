@@ -1,8 +1,8 @@
 {
   "domain": "gent_parking",
   "name": "Gent Parking Occupancy",
-  "version": "1.0.0",
-  "documentation": "https://github.com/sebadv/ha-gent-parking",
+  "version": "1.0.2",
+  "documentation": "https://github.com/sebadv/ha-parking-gent",
   "dependencies": [],
   "codeowners": ["@sebadv"],
   "requirements": ["requests"],
