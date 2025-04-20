@@ -9,18 +9,15 @@ from homeassistant.const import ATTR_ATTRIBUTION
 from .const import DOMAIN, API_URL
 
 _LOGGER = logging.getLogger(__name__)
-
 ATTRIBUTION = "Data provided by Stad Gent"
 
 async def async_setup_entry(hass, entry, async_add_entities):
-    garages = entry.data["selected_garages"]
+    """Set up sensors for each selected garage."""
+    garages = hass.data[DOMAIN][entry.entry_id]
     coordinator = ParkingDataCoordinator(hass, garages)
     await coordinator.async_config_entry_first_refresh()
 
-    entities = [
-        ParkingSensor(coordinator, garage_id)
-        for garage_id in garages
-    ]
+    entities = [ParkingSensor(coordinator, gid) for gid in garages]
     async_add_entities(entities, update_before_add=True)
 
 class ParkingDataCoordinator(DataUpdateCoordinator):
@@ -28,10 +25,7 @@ class ParkingDataCoordinator(DataUpdateCoordinator):
 
     def __init__(self, hass, garages):
         super().__init__(
-            hass,
-            _LOGGER,
-            name=DOMAIN,
-            update_interval=timedelta(minutes=1),
+            hass, _LOGGER, name=DOMAIN, update_interval=timedelta(minutes=1)
         )
         self.garages = garages
 
@@ -45,42 +39,27 @@ class ParkingDataCoordinator(DataUpdateCoordinator):
         result = {}
 
         for rec in records:
+            # unified fields extraction
             if "record" in rec and isinstance(rec["record"], dict):
                 f = rec["record"].get("fields", {})
-            elif "fields" in rec:
-                f = rec["fields"]
             else:
-                f = rec
+                f = rec.get("fields", rec)
 
-            # pick the garage identifier
             name = f.get("naam") or f.get("name")
             if name not in self.garages:
                 continue
 
-            # available spots: Dutch or English key
             available = (
                 f.get("vrije_plaatsen")
                 or f.get("availablecapacity")
                 or f.get("available_capacity")
-                or f.get("freeparking")
             )
-            # total capacity: Dutch or English
-            capacity = (
-                f.get("totaal_aantal_plaatsen")
-                or f.get("totalcapacity")
-            )
-            # address: try adres/address, else description
-            address = (
-                f.get("adres")
-                or f.get("address")
-                or f.get("description")
-                or ""
-            )
-            # operator info
+            capacity = f.get("totaal_aantal_plaatsen") or f.get("totalcapacity")
+            address = f.get("adres") or f.get("address") or f.get("description", "")
             operator = (
                 f.get("beheerder")
-                or f.get("operatorinformation")
                 or f.get("operator")
+                or f.get("operatorinformation")
                 or "Unknown"
             )
 
@@ -104,8 +83,7 @@ class ParkingSensor(CoordinatorEntity):
 
     @property
     def state(self):
-        data = self.coordinator.data.get(self.garage_id, {})
-        return data.get("available")
+        return self.coordinator.data.get(self.garage_id, {}).get("available")
 
     @property
     def extra_state_attributes(self):
