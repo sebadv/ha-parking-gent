@@ -1,16 +1,16 @@
 {
   "title": {
-    "name": "Parkeerbezetting Gent"
+    "name": "Parking Occupancy Ghent"
   },
   "config": {
     "step": {
       "user": {
-        "title": "Parkeerbezetting Gent instellen",
+        "title": "Set up Parking Occupancy Ghent",
         "description": {
-          "user": "Kies welke parkeergarages u wilt monitoren. De sensor toont het aantal vrije plaatsen."
+          "user": "Choose which parking garages you want to monitor. The sensor shows the number of free spaces."
         },
         "data": {
-          "selected_garages": "Selecteer parkeergarages om te monitoren"
+          "selected_garages": "Select parking garages to monitor"
         }
       }
     }

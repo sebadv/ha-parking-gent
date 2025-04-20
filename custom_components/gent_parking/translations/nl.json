@@ -1,0 +1,21 @@
+{
+  "title": {
+    "name": "Parkeerbezetting Gent"
+  },
+  "config": {
+    "step": {
+      "user": {
+        "title": "Parkeerbezetting Gent instellen",
+        "description": {
+          "user": "Kies welke parkeergarages u wilt monitoren. De sensor toont het aantal vrije plaatsen."
+        },
+        "data": {
+          "selected_garages": "Selecteer parkeergarages om te monitoren"
+        }
+      }
+    }
+  },
+  "sensor": {
+    "name": "Parking {{ name }}"
+  }
+}
