@@ -3,6 +3,7 @@ import requests
 
 import voluptuous as vol
 from homeassistant import config_entries
+from homeassistant.helpers import config_validation as cv
 from .const import DOMAIN, API_URL
 
 _LOGGER = logging.getLogger(__name__)
@@ -12,18 +13,22 @@ def fetch_garages():
     resp = requests.get(API_URL, params={"limit": 100})
     resp.raise_for_status()
     data = resp.json()
+    # v1 uses "records", v2 uses "results"
     records = data.get("records") or data.get("results") or []
     options = {}
     for rec in records:
-        # v1: rec["record"]["fields"], v2: rec["fields"] or rec directly
+        # extract the fields dict
         if "record" in rec and isinstance(rec["record"], dict):
             f = rec["record"].get("fields", {})
         elif "fields" in rec:
             f = rec["fields"]
         else:
             f = rec
-        gid = f.get("naam")
-        addr = f.get("adres", "")
+
+        # try Dutch first, then English
+        gid = f.get("naam") or f.get("name")
+        # address: prefer adres/address, else fall back to description
+        addr = f.get("adres") or f.get("address") or f.get("description", "")
         if gid:
             options[gid] = f"{gid} ({addr})"
     return options
@@ -36,7 +41,7 @@ class GentParkingFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
         if user_input is None:
             options = await self.hass.async_add_executor_job(fetch_garages)
             schema = vol.Schema({
-                vol.Required("selected_garages", default=[]): vol.MultiSelect(options)
+                vol.Required("selected_garages", default=[]): cv.multi_select(options)
             })
             return self.async_show_form(step_id="user", data_schema=schema)
 
@@ -46,10 +51,13 @@ class GentParkingFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
         )
 
     async def async_step_import(self, user_input):
+        """Support importing from YAML (if you ever add that)."""
         return await self.async_step_user(user_input)
 
-    async def async_get_options_flow(self, entry):
-        return OptionsFlowHandler(entry)
+    @staticmethod
+    def async_get_options_flow(config_entry):
+        """Provide an options flow to add/remove garages later."""
+        return OptionsFlowHandler(config_entry)
 
 class OptionsFlowHandler(config_entries.OptionsFlow):
     """Handle options for existing Gent Parking config entries."""
@@ -63,7 +71,7 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
                 vol.Required(
                     "selected_garages",
                     default=self.entry.data.get("selected_garages", []),
-                ): vol.MultiSelect(options)
+                ): cv.multi_select(options)
             })
             return self.async_show_form(step_id="init", data_schema=schema)
 
