@@ -1,0 +1,9 @@
+{
+  "name": "Parkeerbezetting Gent",
+  "content_in_root": false,
+  "domains": ["sensor"],
+  "homeassistant": "2021.12.0",
+  "render_readme": true,
+  "zip_release": false,
+  "filename": ""
+}
