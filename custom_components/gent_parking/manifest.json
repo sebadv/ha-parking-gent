@@ -1,0 +1,11 @@
+{
+  "domain": "gent_parking",
+  "name": "Gent Parking Occupancy",
+  "version": "1.0.0",
+  "documentation": "https://github.com/sebadv/ha-gent-parking",
+  "dependencies": [],
+  "codeowners": ["@sebadv"],
+  "requirements": ["requests"],
+  "config_flow": true,
+  "iot_class": "cloud_polling"
+}

@@ -1,0 +1,17 @@
+{
+  "title": {
+    "name": "Gent Parking Occupancy"
+  },
+  "sensor": {
+    "name": "Parking {{ name }}"
+  },
+  "config": {
+    "step": {
+      "user": {
+        "data": {
+          "selected_garages": "Select garages to monitor"
+        }
+      }
+    }
+  }
+}
