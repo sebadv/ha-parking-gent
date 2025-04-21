@@ -1,6 +1,8 @@
 # Gent Parking Occupancy
 
 [![HACS Integration][hacs_badge]](https://github.com/hacs)
+![Parkeerbezetting Gent Logo](custom_components/gent_parking/logo.png)
+
 
 Gent Parking Occupancy is a Home Assistant custom integration that provides **live occupancy data** for parking garages in Ghent, Belgium. Once installed via HACS, you can select which garages to monitor, and Home Assistant will create a sensor for each, showing the current number of available parking spaces.
 
