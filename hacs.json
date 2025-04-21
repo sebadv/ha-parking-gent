@@ -1,5 +1,5 @@
 {
-  "name": "Parkeerbezetting Gent",
+  "name": "Parking Occupancy Ghent",
   "content_in_root": false,
   "domains": ["sensor"],
   "homeassistant": "2021.12.0",

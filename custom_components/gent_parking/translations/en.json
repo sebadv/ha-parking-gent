@@ -1,11 +1,11 @@
 {
   "title": {
-    "name": "Parkeerbezetting Gent"
+    "name": "Parking Occupancy Ghent"
   },
   "config": {
     "step": {
       "user": {
-        "title": "Configure Parkeerbezetting Gent",
+        "title": "Configure Parking Occupancy Ghent",
         "description": {
           "user": "Select which parking garages you want to monitor. The sensor shows the number of available spaces."
         },

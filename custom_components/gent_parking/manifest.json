@@ -1,6 +1,6 @@
 {
-  "domain": "parkeerbezetting_gent",
-  "name": "Parkeerbezetting Gent",
+  "domain": "gent_parking",
+  "name": "Parking Occupancy Ghent",
   "version": "1.0.11",
   "documentation": "https://github.com/sebadv/ha-parking-gent",
   "issue_tracker": "https://github.com/sebadv/ha-parking-gent/issues",
