@@ -4,7 +4,7 @@ from homeassistant.core import HomeAssistant
 from .const import DOMAIN
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
-    """Set up Gent Parking from a config entry."""
+    """Set up Parkeerbezetting Gent from a config entry."""
     # Prefer options (updated via Options Flow), fall back to data (initial selection)
     selected = entry.options.get(
         "selected_garages", entry.data.get("selected_garages", [])
