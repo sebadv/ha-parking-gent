@@ -27,7 +27,7 @@ def fetch_garages():
     return options
 
 class GentParkingFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
-    """Handle the configuration flow for Parkeerbezetting Gent."""
+    """Handle the configuration flow for Parking Occupancy Ghent."""
     VERSION = 1
 
     async def async_step_user(self, user_input=None):
@@ -54,7 +54,7 @@ class GentParkingFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
         return OptionsFlowHandler(config_entry)
 
 class OptionsFlowHandler(config_entries.OptionsFlow):
-    """Handle options for existing Parkeerbezetting Gent entries."""
+    """Handle options for existing Parking Occupancy Ghent entries."""
     def __init__(self, entry):
         self.entry = entry
 
