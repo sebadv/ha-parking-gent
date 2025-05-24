@@ -25,7 +25,11 @@ def fetch_garages():
         gid = f.get("naam") or f.get("name")
         addr = f.get("adres") or f.get("address", "")
         if gid:
-            options[gid] = f"{gid} ({addr})"
+            # Ensure we only add the address if it's not empty
+            display_name = gid
+            if addr and addr.strip():
+                display_name = f"{gid} ({addr.strip()})"
+            options[gid] = display_name
     return options
 
 
