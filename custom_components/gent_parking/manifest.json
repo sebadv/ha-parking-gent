@@ -6,9 +6,10 @@
   "issue_tracker": "https://github.com/sebadv/ha-parking-gent/issues",
   "dependencies": [],
   "codeowners": ["@sebadv"],
-  "requirements": ["requests"],
+  "requirements": ["requests>=2.31.0"],
   "config_flow": true,
   "iot_class": "cloud_polling",
   "homeassistant": "2024.1.0",
-  "integration_type": "service"
+  "integration_type": "service",
+  "version_added": "1.0.0"
 }
