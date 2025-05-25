@@ -2,7 +2,7 @@
   "name": "Parking Occupancy Ghent",
   "content_in_root": false,
   "domains": ["sensor"],
-  "homeassistant": "2021.12.0",
+  "homeassistant": "2024.1.0",
   "render_readme": true,
   "zip_release": false,
   "filename": ""
