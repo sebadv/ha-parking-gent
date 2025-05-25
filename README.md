@@ -27,11 +27,11 @@ Parking Occupancy Ghent is a Home Assistant custom integration that provides **l
 
 ## Configuration
 
-During setup, you will be presented with a list of all available parking garages in Ghent. Simply multi-select the garages you want to monitor. To add or remove garages later, go to the integration’s **Options**.
+During setup, you will be presented with a list of all available parking garages in Ghent. Simply multi-select the garages you want to monitor. To add or remove garages later, go to the integration's **Options**.
 
 ## Data Source
 
-This integration uses data from the City of Ghent’s open data API:
+This integration uses data from the City of Ghent's open data API:
 
 - **API Endpoint**:  
   `https://data.stad.gent/api/explore/v2.1/catalog/datasets/bezetting-parkeergarages-real-time/records?limit=20`  
@@ -47,6 +47,12 @@ Data is provided under the [Creative Commons Attribution 4.0 International Licen
 ## License
 
 This integration is released under the MIT License. See [LICENSE](LICENSE) for full details.
+
+## Support
+
+If you like this integration, feel free to buy me a coffee:
+
+[![Buy Me A Coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://buymeacoffee.com/seba.gent)
 
 ---
 
