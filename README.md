@@ -60,3 +60,4 @@ If you like this integration, feel free to buy me a coffee:
 ---
 
 [hacs_badge]: https://img.shields.io/badge/HACS-Default-orange.svg
+ 
