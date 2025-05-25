@@ -1,6 +1,9 @@
 # Parking Occupancy Ghent
 
 [![HACS Integration][hacs_badge]](https://github.com/hacs)
+[![HACS Action](https://github.com/sebadv/ha-parking-gent/actions/workflows/hacs.yaml/badge.svg)](https://github.com/sebadv/ha-parking-gent/actions/workflows/hacs.yaml)
+[![Validate with hassfest](https://github.com/sebadv/ha-parking-gent/actions/workflows/hassfest.yaml/badge.svg)](https://github.com/sebadv/ha-parking-gent/actions/workflows/hassfest.yaml)
+
 ![Parkeerbezetting Gent Logo](custom_components/gent_parking/logo.png)
 
 
