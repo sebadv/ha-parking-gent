@@ -18,18 +18,24 @@ def fetch_garages():
     records = data.get("records") or data.get("results") or []
     options = {}
     for rec in records:
+        # Handle v2 API response structure
         if "record" in rec and isinstance(rec["record"], dict):
-            f = rec["record"].get("fields", {})
+            fields = rec["record"].get("fields", {})
         else:
-            f = rec.get("fields", rec)
-        gid = f.get("naam") or f.get("name")
-        addr = f.get("adres") or f.get("address", "")
-        if gid:
-            # Ensure we only add the address if it's not empty
-            display_name = gid
-            if addr and addr.strip():
-                display_name = f"{gid} ({addr.strip()})"
-            options[gid] = display_name
+            fields = rec.get("fields", rec)
+        
+        # Get name and address, trying both Dutch and English field names
+        name = fields.get("naam") or fields.get("name")
+        address = fields.get("adres") or fields.get("address") or fields.get("location", "")
+        
+        if name:
+            # Clean up the address and ensure it's not empty
+            if isinstance(address, str) and address.strip():
+                display_name = f"{name} ({address.strip()})"
+            else:
+                display_name = name
+            options[name] = display_name
+    
     return options
 
 
