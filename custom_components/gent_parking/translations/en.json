@@ -15,7 +15,9 @@
       }
     }
   },
-  "sensor": {
-    "name": "Parking {{ name }}"
+  "entity": {
+    "sensor": {
+      "name": "Parking {{ name }}"
+    }
   }
 }
