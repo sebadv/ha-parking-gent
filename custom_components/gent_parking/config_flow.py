@@ -3,6 +3,7 @@ import requests
 
 import voluptuous as vol
 from homeassistant import config_entries
+from homeassistant.core import callback
 from homeassistant.helpers import config_validation as cv
 
 from .const import DOMAIN, DEFAULT_NAME, API_URL
@@ -12,7 +13,7 @@ _LOGGER = logging.getLogger(__name__)
 
 def fetch_garages():
     """Fetch list of garages, handling both v1 and v2 responses."""
-    resp = requests.get(API_URL, params={"limit": 100})
+    resp = requests.get(API_URL, params={"limit": 100}, timeout=30)
     resp.raise_for_status()
     data = resp.json()
     records = data.get("records") or data.get("results") or []
@@ -65,20 +66,19 @@ class GentParkingFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
         return await self.async_step_user(user_input)
 
     @staticmethod
+    @callback
     def async_get_options_flow(config_entry):
-        return OptionsFlowHandler(config_entry)
+        """Return the options flow. The entry is available as self.config_entry."""
+        return OptionsFlowHandler()
 
 
 class OptionsFlowHandler(config_entries.OptionsFlow):
     """Handle options for existing Parking Occupancy Ghent entries."""
 
-    def __init__(self, entry):
-        self.entry = entry
-
     async def async_step_init(self, user_input=None):
         # *** Force‑rename the entry title before showing the form ***
         self.hass.config_entries.async_update_entry(
-            self.entry,
+            self.config_entry,
             title=DEFAULT_NAME
         )
 
@@ -87,9 +87,9 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
             schema = vol.Schema({
                 vol.Required(
                     "selected_garages",
-                    default=self.entry.options.get(
+                    default=self.config_entry.options.get(
                         "selected_garages",
-                        self.entry.data.get("selected_garages", []),
+                        self.config_entry.data.get("selected_garages", []),
                     )
                 ): cv.multi_select(options)
             })
